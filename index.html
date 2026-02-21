@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Medicine Finder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>💊 Medicine Finder</h1>
+
+  <input id="location" placeholder="Enter city">
+  <button onclick="search()">Search</button>
+
+  <ul id="results"></ul>
+
+  <a href="/login.html">Admin Login</a>
+
+<script>
+function search() {
+    const location = document.getElementById("location").value;
+
+    fetch(`/search?location=${location}`)
+        .then(res => res.json())
+        .then(data => {
+            const results = document.getElementById("results");
+            results.innerHTML = "";
+
+            data.forEach(m => {
+                results.innerHTML += `
+                    <li>
+                        <b>${m.medicine}</b><br>
+                        ${m.pharmacy} (${m.location})<br>
+                        ₹${m.price} | Stock: ${m.stock}
+                    </li><br>
+                `;
+            });
+        });
+}
+</script>
+</body>
+</html>
